@@ -7,4 +7,6 @@ Installation:
 
 ```npm install oils-plugin-run-once```
 
+Note: requires oils-plugin-syspars
+
 License: MIT

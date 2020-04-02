@@ -1,24 +1,19 @@
-module.exports = function runOncePlugin(pluginConf, web, next) {
-	web.runOnce = function(id, func, cb) {
-		if (!web.syspars) {
-	      throw new Error('run-once plugin needs oils-plugin-syspars plugin');
-	    } else {
-	      web.syspars.get(id, function(err, syspar) {
-	      	if (!syspar) {
-	      		console.log('Running once: ' + id);
+module.exports = async function runOncePlugin(pluginConf, web) {
+	if (!web.syspars) {
+    throw new Error('run-once plugin needs oils-plugin-syspars plugin');
+  }
 
-	      		func();
+	web.runOnce = async function(id, func, cb) {
+    let syspar = await web.syspars.get(id);
+  	if (!syspar) {
+  		console.log('Running once: ' + id);
+  		await func();
+  		await web.syspars.set(id, 'Y');
+  	}
 
-	      		web.syspars.set(id, 'Y', function(err, syspar) {
-	      			if (cb) {
-	      				cb(err, id);	
-	      			}
-	      		});
-	      	}
-	      });
-	  	}
+  	if (cb) {
+  		cb();
+  	}
 	};
-
-	next();
 
 }

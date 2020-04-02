@@ -1,7 +1,7 @@
 oils-plugin-run-once
 ================
 
-Run once plugin for oils version 1.x
+Run once plugin for Oils framework
 
 Installation:
 
